@@ -1,16 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "utils.h"
+#include <string.h>
 
 int main(int argc, char *argv[]){
-    if (argc < 5) {
-        printf("Ошибка: недостаточно аргументов.\n");
+    if (argc < 4) {
+        printf("Error: Not enough arguments.\n");
         return 1;
     }
-    // вывод массива
 
-    for (int i = 0; i < argc; i++) {
-        printf("argv[%d]: %s\n", i, argv[i]);
-    }
     // поиск флага
 
     int key_index = -1;
@@ -22,8 +20,8 @@ int main(int argc, char *argv[]){
     }
     // проверка флага
 
-     if (key_index == -1 || key_index + 1 >= argc || !is_number(argv[key_index + 1])) {
-        printf("Ошибка: некорректный или отсутствующий ключ дешифрования.\n");
+    if (key_index == -1 || key_index + 1 >= argc || !is_number(argv[key_index + 1])) {
+        printf("Error: Invalid or missing decryption key.\n"); // неправильный ключ или его отсутствие
         return 1;
     }
 
@@ -31,9 +29,9 @@ int main(int argc, char *argv[]){
 
     // количество выражений
 
-    int expression_count = (key_index - 1) / 3;
+    int expression_count = (key_index - 1) / 3; // количество операций
     if ((key_index - 1) % 3 != 0) {
-        printf("Ошибка: некорректный формат выражений.\n");
+        printf("Error: incorrect expression format.\n"); // некорректный формат выражений.
         return 1;
     }
 
@@ -41,29 +39,36 @@ int main(int argc, char *argv[]){
     
     int *results = malloc(expression_count * sizeof(int));
     if (!results) {
-        printf("Ошибка: не удалось выделить память.\n");
+        printf("Error: Failed to allocate memory.\n"); // не удалось выделить память.
         return 1;
     }
 
 
-    for (int i = 0; i < 3; i++){
+    for (int i = 0; i < expression_count; i++){
         int left_operand = atoi(argv[i * 3 + 1]);
         char operator = argv[i * 3 + 2][0];
         int right_operand = atoi(argv[i * 3 + 3]);
-        int result = 0;
 
-        switch (operator)
-        {
-        case '+': result = left_operand + right_operand; break;
-        case '-': result = left_operand - right_operand; break;
-        case '*': result = left_operand * right_operand; break;
-        
-        default:
-            printf("invalid input ыыыы\n");
+        int result = calculate(left_operand, operator, right_operand);
+
+        if (result == -1) {
+            printf("Error: incorrect operator in expression #%d.\n", i + 1); // некорректный оператор в выражении .. 
+            free(results);
             return 1;
         }
-        printf("answer %d\n", result);
+
+        results[i] = result - key; // Дешифруем результат
+        printf("Answer #%d: %d\n", i + 1, result);
     }
 
+    printf("Result string: ");
 
+    for (int i = 0; i < expression_count; i++){
+        char decoded_char = (char)(results[i]);
+        printf("%c", decoded_char);
+    }
+    printf("\n");
+
+    free(results);
+    return 0;
 }

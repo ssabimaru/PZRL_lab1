@@ -18,3 +18,12 @@ int calculate(int left_operand, char operator, int right_operand){
     }
 }
 
+// Проверяет, является ли строка числом
+int is_number(const char *str) {
+    if (*str == '-' || *str == '+') str++; // Пропускаем знак
+    while (*str) {
+        if (!isdigit(*str)) return 0; // Если не цифра, возвращаем ошибку
+        str++;
+    }
+    return 1;
+}
