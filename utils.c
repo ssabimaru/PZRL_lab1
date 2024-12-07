@@ -29,3 +29,12 @@ int is_number(const char *str) {
     }
     return 1;
 }
+
+void print_result_string(int *results, int res_cnt){
+    printf("Result string: ");
+    for(int i = 0; i < res_cnt; i++){
+        char dec_char = (char)(results[i]);
+        printf("%c", dec_char);
+    }
+    printf("\n");
+}

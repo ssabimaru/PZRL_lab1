@@ -9,11 +9,7 @@ int main(int argc, char *argv[]){
         printf("Error: Not enough arguments.\n");
         return 1;
     }
-
-    for (int i = 0; i < argc; i++){
-        printf("%s\n",argv[i]);
-    }
-
+    
     // поиск флага
 
     int key_index = -1;
@@ -67,13 +63,7 @@ int main(int argc, char *argv[]){
         printf("Answer #%d: %d\n", i + 1, result);
     }
 
-    printf("Result string: ");
-
-    for (int i = 0; i < expression_count; i++){
-        char decoded_char = (char)(results[i]);
-        printf("%c", decoded_char);
-    }
-    printf("\n");
+    print_result_string(results, expression_count);
 
     free(results);
     return 0;
