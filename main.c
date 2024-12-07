@@ -2,11 +2,16 @@
 #include <stdlib.h>
 #include "utils.h"
 #include <string.h>
+#include <ctype.h>
 
 int main(int argc, char *argv[]){
     if (argc < 4) {
         printf("Error: Not enough arguments.\n");
         return 1;
+    }
+
+    for (int i = 0; i < argc; i++){
+        printf("%s\n",argv[i]);
     }
 
     // поиск флага
@@ -46,10 +51,11 @@ int main(int argc, char *argv[]){
 
     for (int i = 0; i < expression_count; i++){
         int left_operand = atoi(argv[i * 3 + 1]);
-        char operator = argv[i * 3 + 2][0];
+        char calc_operator = argv[i * 3 + 2][0];
         int right_operand = atoi(argv[i * 3 + 3]);
 
-        int result = calculate(left_operand, operator, right_operand);
+
+        int result = calculate(left_operand, calc_operator, right_operand);
 
         if (result == -1) {
             printf("Error: incorrect operator in expression #%d.\n", i + 1); // некорректный оператор в выражении .. 

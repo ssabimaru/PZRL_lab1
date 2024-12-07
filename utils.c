@@ -1,15 +1,17 @@
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #include <ctype.h>
 
-int calculate(int left_operand, char operator, int right_operand){
-    switch (operator)
+int calculate(int left_operand, char calc_operator, int right_operand){
+    switch (calc_operator)
     {
     case '+': return left_operand + right_operand;
     case '-': return left_operand - right_operand;
     case '*': return left_operand * right_operand;
     case '%': 
         if (right_operand ==0){
-            printf("Ошибка: деление на ноль");
+            printf("Error: division by zero\n"); // деление на ноль
             return -1;
         }
         return left_operand % right_operand;
